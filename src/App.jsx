@@ -25,6 +25,12 @@ import forecastSunCloudRain from "./assets/images/forecast/forecast-sun-cloud-ra
 
 /* *** End of images *** */
 
+/* *** Sets the initial className of body based on user's time *** */
+
+const currentHour = new Date().getHours();
+const isNightByIp = currentHour > 17 || currentHour < 6;
+document.body.classList.add(isNightByIp ? "night" : "day");
+
 export default function App() {
   /* Default */
 
@@ -35,9 +41,10 @@ export default function App() {
   // Starter default stuff
   const [userLocationByIp, setUserLocationByIp] = useState(null);
 
-  // Sets user's location based on their input
+  // Sets user's location and time based on their input
   const [userLocation, setUserLocation] = useState(null);
   const [userLocationName, setUserLocationName] = useState(null);
+  const [userLocationTime, setUserLocationTime] = useState(null);
   const [showInput, setShowInput] = useState(false);
 
   // Sets user's location based on their input
@@ -81,19 +88,20 @@ export default function App() {
       );
       const geoData = await geoRes.json();
 
+      console.log(geoData);
+
       if (!geoData.results || geoData.results.length === 0) {
         setError("City not found!");
         return;
       }
-
-      setUserLocationName(geoData.results[0].name);
-      setError(false);
 
       const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${geoData.results[0].latitude}&longitude=${geoData.results[0].longitude}&current_weather=true&hourly=temperature_2m,apparent_temperature,relativehumidity_2m,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`;
       const weatherRes = await fetch(weatherUrl);
       const weatherData = await weatherRes.json();
 
       setWeatherData(weatherData);
+      setUserLocationName(geoData.results[0].name);
+      setUserLocationTime(geoData.results[0].timezone);
     } catch (err) {
       setError("Failed to get the data from api");
     }
@@ -216,6 +224,7 @@ export default function App() {
   /* Reset if api failed */
 
   function resetDataSearch() {
+    setError(false);
     setShowInput(false);
     setUserLocation(null);
 
@@ -229,14 +238,17 @@ export default function App() {
   useEffect(() => {
     if (!weatherData) return;
 
-    const currentHour = new Date().getHours();
-    const isNight = currentHour > 17 || currentHour < 6;
+    const cityTime = new Date().toLocaleString("en-US", {
+      timeZone: userLocationTime,
+    });
+    const cityHour = new Date(cityTime).getHours();
+    const isNight = cityHour > 17 || cityHour < 6;
     const isRainy = weatherData.daily.precipitation_probability_max[0] > 60;
 
     document.body.classList.toggle("night", isNight);
     document.body.classList.toggle("day", !isNight);
     document.body.classList.toggle("rainy-weather", isRainy);
-  }, [weatherData]);
+  }, [userLocation, userLocationTime]);
 
   return (
     <>
@@ -424,7 +436,7 @@ export default function App() {
           <footer className="signature">
             © 2025 Mohammad Rasooli
             <br />
-            Version 1.0.4
+            Version 1.1.0
           </footer>
         </section>
       ) : null}
