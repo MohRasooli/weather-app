@@ -349,6 +349,7 @@ export default function App() {
                   pagination={{ clickable: true }}
                   spaceBetween={16}
                   slidesPerView={2}
+                  touchReleaseOnEdges={true}
                   breakpoints={{
                     300: {
                       slidesPerView: 3,
@@ -359,7 +360,7 @@ export default function App() {
                     650: {
                       slidesPerView: 5,
                     },
-                    820: {
+                    1024: {
                       slidesPerView: 6,
                     },
                   }}
@@ -419,7 +420,7 @@ export default function App() {
           <footer className="signature">
             © 2025 Mohammad Rasooli
             <br />
-            Version 1.0.0
+            Version 1.0.2
           </footer>
         </section>
       ) : null}
