@@ -67,6 +67,7 @@ export default function App() {
       if (!res.ok) throw new Error("Failed to fetch IP location");
 
       const data = await res.json();
+
       setUserLocationByIp(data.country_name);
     } catch (err) {
       setError("IP location failed");
@@ -83,12 +84,10 @@ export default function App() {
     try {
       const geoRes = await fetch(
         `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-          city
+          !userLocation && !userLocationByIp ? defaultCity : city
         )}&count=1`
       );
       const geoData = await geoRes.json();
-
-      console.log(geoData);
 
       if (!geoData.results || geoData.results.length === 0) {
         setError("City not found!");
@@ -112,8 +111,6 @@ export default function App() {
       fetchData(userLocation);
     } else if (userLocationByIp) {
       fetchData(userLocationByIp);
-    } else {
-      fetchData(defaultCity);
     }
   }, [userLocation, userLocationByIp]);
 
@@ -438,7 +435,7 @@ export default function App() {
           <footer className="signature">
             © 2025 Mohammad Rasooli
             <br />
-            Version 1.1.1
+            Version 1.1.2
           </footer>
         </section>
       ) : null}
