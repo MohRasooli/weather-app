@@ -366,6 +366,8 @@ export default function App() {
                   spaceBetween={16}
                   slidesPerView={2}
                   touchReleaseOnEdges={true}
+                  autoHeight={false}
+                  style={{ height: "200px" }}
                   breakpoints={{
                     300: {
                       slidesPerView: 3,
@@ -436,7 +438,7 @@ export default function App() {
           <footer className="signature">
             © 2025 Mohammad Rasooli
             <br />
-            Version 1.1.0
+            Version 1.1.1
           </footer>
         </section>
       ) : null}
