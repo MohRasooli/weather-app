@@ -37,6 +37,7 @@ export default function App() {
 
   // Sets user's location based on their input
   const [userLocation, setUserLocation] = useState(null);
+  const [userLocationName, setUserLocationName] = useState(null);
   const [showInput, setShowInput] = useState(false);
 
   // Sets user's location based on their input
@@ -85,7 +86,9 @@ export default function App() {
         return;
       }
 
+      setUserLocationName(geoData.results[0].name);
       setError(false);
+
       const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${geoData.results[0].latitude}&longitude=${geoData.results[0].longitude}&current_weather=true&hourly=temperature_2m,apparent_temperature,relativehumidity_2m,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`;
       const weatherRes = await fetch(weatherUrl);
       const weatherData = await weatherRes.json();
@@ -259,11 +262,11 @@ export default function App() {
                 >
                   <span className="icon-before" />
                   {weatherData
-                    ? userLocation
-                      ? weatherData.timezone?.split("/")[1] || ""
+                    ? userLocationName
+                    : /* ? weatherData.timezone?.split("/")[1] || ""
                       : (userLocationByIp?.charAt(0).toUpperCase() || "") +
-                        (userLocationByIp?.slice(1) || "")
-                    : ""}
+                        (userLocationByIp?.slice(1) || "") */
+                      ""}
                   <span className="icon-after" />
                 </button>
               ) : (
@@ -421,7 +424,7 @@ export default function App() {
           <footer className="signature">
             © 2025 Mohammad Rasooli
             <br />
-            Version 1.0.3
+            Version 1.0.4
           </footer>
         </section>
       ) : null}
