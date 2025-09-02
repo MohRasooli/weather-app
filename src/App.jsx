@@ -214,13 +214,11 @@ export default function App() {
 
   function resetDataSearch() {
     setShowInput(false);
-    if (userLocation) {
-      fetchData(userLocation);
-    } else {
-      const checkCity = userLocationByIp || defaultCity;
-      setUserLocation(checkCity);
-      fetchData(checkCity);
-    }
+    setUserLocation(null);
+
+    const cityToFetch = userLocationByIp || defaultCity;
+
+    fetchData(cityToFetch);
   }
 
   /* Sets the body's className */
@@ -274,7 +272,8 @@ export default function App() {
                   onSubmit={(e) => {
                     e.preventDefault();
                     const userValue = e.target.elements.location.value;
-                    setUserLocation(userValue);
+                    if (userValue.trim() === "") return;
+                    setUserLocation(userValue.trim());
                     setShowInput(false);
                   }}
                 >
