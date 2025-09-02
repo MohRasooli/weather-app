@@ -345,6 +345,7 @@ export default function App() {
               </section>
               <section className="today-data-showcase">
                 <Swiper
+                  key={userLocation}
                   modules={[Pagination]}
                   pagination={{ clickable: true }}
                   spaceBetween={16}
@@ -420,7 +421,7 @@ export default function App() {
           <footer className="signature">
             © 2025 Mohammad Rasooli
             <br />
-            Version 1.0.2
+            Version 1.0.3
           </footer>
         </section>
       ) : null}
