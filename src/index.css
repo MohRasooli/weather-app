@@ -399,12 +399,19 @@ section.forecast-data .forecast-data-single img {
   bottom: 10px;
   font-size: 0.75rem;
   opacity: 0.5;
-  pointer-events: none;
   user-select: none;
   text-align: center;
   justify-content: center;
   width: 100%;
   align-items: center;
+}
+
+.signature a {
+  color: var(--main-color-text);
+}
+
+.signature a:hover {
+  color: gray;
 }
 
 .main-page {

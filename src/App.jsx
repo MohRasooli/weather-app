@@ -251,6 +251,47 @@ export default function App() {
     <>
       {error && (
         <>
+          <header>
+            <section className="user-location-display">
+              {!showInput ? (
+                <button
+                  onClick={() => setShowInput(true)}
+                  className="user-location-button"
+                >
+                  <span className="icon-before" />
+                  {"Search here"}
+                  <span className="icon-after" />
+                </button>
+              ) : (
+                <form
+                  className="user-location-form"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const userValue = e.target.elements.location.value;
+                    if (userValue.trim() === "") return;
+                    setError(false);
+                    setUserLocation(userValue.trim());
+                    setShowInput(false);
+                  }}
+                >
+                  <input
+                    type="text"
+                    name="location"
+                    className="user-location-input"
+                    placeholder="Enter location..."
+                    autoFocus
+                  />
+                  <button
+                    type="submit"
+                    className="submit-icon"
+                    aria-label="Search"
+                  >
+                    🔍
+                  </button>
+                </form>
+              )}
+            </section>
+          </header>
           <section className="error-page">
             <h2>{error}</h2>
             <button onClick={resetDataSearch}>Try Again</button>
@@ -433,9 +474,12 @@ export default function App() {
             </section>
           </main>
           <footer className="signature">
-            © 2025 Mohammad Rasooli
+            © 2025{" "}
+            <a href="https://github.com/MohRasooli/" target="_blank">
+              Mohammad Rasooli
+            </a>
             <br />
-            Version 1.1.3
+            Version 1.1.4
           </footer>
         </section>
       ) : null}
