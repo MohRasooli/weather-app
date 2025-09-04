@@ -197,7 +197,8 @@ section.weather-main-data {
 }
 
 section.weather-main-data img {
-  max-width: 100%;
+  max-width: 350px;
+  height: auto;
 }
 
 section.weather-main-data .current-tempature {

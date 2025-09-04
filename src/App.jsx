@@ -435,7 +435,7 @@ export default function App() {
           <footer className="signature">
             © 2025 Mohammad Rasooli
             <br />
-            Version 1.1.2
+            Version 1.1.3
           </footer>
         </section>
       ) : null}
